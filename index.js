@@ -29,6 +29,10 @@ var getMatcher = function(info){
 		return paramMatchers[key] !== undefined;
 	})[0];
 
+	if(matcherKey === undefined){
+		return paramMatchers.whatever();
+	}
+
 	return paramMatchers[matcherKey](info[matcherKey])
 }
 
@@ -45,8 +49,21 @@ var nonParam = function(str,schema){
 
 var param = function(str,schema) {
 	var name = paramName(str);
-	var paramInfo = schema.params[name];
-	var paramMatcher = getMatcher(paramInfo);
+
+	var paramInfo;
+
+	if(schema.params){
+		paramInfo = schema.params[name];
+	} 
+
+	var paramMatcher;
+
+	if(paramInfo) {
+		paramMatcher = getMatcher(paramInfo);	
+	}
+	else{
+		paramMatcher = paramMatchers.whatever();
+	}
 	
 	return {
 		'name':name,
@@ -56,25 +73,15 @@ var param = function(str,schema) {
 }
 
 var splat = function(str,schema){
-	return {
-		'name':paramName(str),
-		'isSplat':true,
-		'isOptional':true
-	}
-};
+	var splatParam = param(str,schema);
+	splatParam.isSplat = true;
 
-var requiredSplat = function(str,schema){
-	return {
-		'name':paramName(str),
-		'isSplat':true,
-		'isOptional':false
-	}
+	return splatParam;
 };
 
 var tokenTable = {
 	':':param,
-	'*':splat,
-	'+':requiredSplat
+	'*':splat
 };
 
 var createPathData = function(schema){
