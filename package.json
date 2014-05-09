@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "PDL",
-=======
   "name": "pdl",
->>>>>>> b8f155374ac7995497cc50a128ad932708a499e4
   "version": "0.0.0",
   "description": "helpers for compiling parameterized url paths into usable data for matchers and generators",
   "main": "index.js",
