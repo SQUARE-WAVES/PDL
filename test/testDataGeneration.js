@@ -19,7 +19,7 @@ suite('test the "syntax parser"',function(){
 			}
 		}
 
-		var pathData = parsePath(testSchema);
+		var pathData = parsePath(testSchema.path,testSchema.params);
 
 		assert.equal(pathData.length,5,'there should be 5 chunks of path data');
 		assert.equal(pathData[0].val,'value','the first data chunk should be a value with the value "value"');
@@ -55,7 +55,7 @@ suite('test the "syntax parser"',function(){
 			'path':'/value/:param/:optional?/*optSplat?/*reqSplat',
 		}
 
-		var pathData = parsePath(testSchema);
+		var pathData = parsePath(testSchema.path,testSchema.params);
 
 		assert.equal(pathData.length,5,'there should be 5 chunks of path data');
 		assert.equal(pathData[0].val,'value','the first data chunk should be a value with the value "value"');
