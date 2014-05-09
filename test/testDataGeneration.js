@@ -1,23 +1,7 @@
 var assert = require('assert');
-var PDL = require('../index.js');
+var parsePath = require('../lib/createPathData.js');
 
-suite('test the "compiler"',function(){
-	
-	test('test tokenization',function(done){
-		var testPath1 = '/';
-		var testPath2 = '/a/b/c';
-
-		var tokens1 = PDL.tokenizePath(testPath1);
-		var tokens2 = PDL.tokenizePath(testPath2);
-
-		assert.equal(tokens1.length,1,'the first path should contain 1 token');
-		assert.equal(tokens2.length,3,'the second path should contain 3 tokens');
-
-		assert.equal(tokens2[0],'a','the first token of path 2 should be "a"');
-		assert.equal(tokens2[1],'b','the first token of path 2 should be "b"');
-		assert.equal(tokens2[2],'c','the first token of path 2 should be "c"');
-		done();
-	});
+suite('test the "syntax parser"',function(){
 
 	test('test the data generation',function(done){
 		var testSchema = {
@@ -35,7 +19,7 @@ suite('test the "compiler"',function(){
 			}
 		}
 
-		var pathData = PDL.createPathData(testSchema);
+		var pathData = parsePath(testSchema);
 
 		assert.equal(pathData.length,5,'there should be 5 chunks of path data');
 		assert.equal(pathData[0].val,'value','the first data chunk should be a value with the value "value"');
@@ -71,7 +55,7 @@ suite('test the "compiler"',function(){
 			'path':'/value/:param/:optional?/*optSplat?/*reqSplat',
 		}
 
-		var pathData = PDL.createPathData(testSchema);
+		var pathData = parsePath(testSchema);
 
 		assert.equal(pathData.length,5,'there should be 5 chunks of path data');
 		assert.equal(pathData[0].val,'value','the first data chunk should be a value with the value "value"');
