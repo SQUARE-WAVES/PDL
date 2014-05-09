@@ -24,23 +24,19 @@ suite('test the "compiler"',function(){
 			'path':'/value/:param/:optional?/*optSplat?/*reqSplat',
 			'params':{
 				'param':{
-					'type':'path',
 					'values':['dogs','cats']
 				},
 				'optional':{
-					'type':'path',
 					'regex':'dz-(.*)'
 				},
-				'optSplat':{
-					'type':'path'
-				},
-				'reqSplat':{
-					'type':'path'
+				'count':{
+					'regex':"\\d+"
 				}
 			}
 		}
 
 		var pathData = PDL.createPathData(testSchema);
+
 		assert.equal(pathData.length,5,'there should be 5 chunks of path data');
 		assert.equal(pathData[0].val,'value','the first data chunk should be a value with the value "value"');
 		assert(pathData[0].matches('value'),'the first data chunk should match the correct value');
@@ -84,7 +80,6 @@ suite('test the "compiler"',function(){
 
 		assert.equal(pathData[1].name,'param','the second chunk should be a param named "param"');
 		assert.equal(pathData[1].isOptional,false,'the second data chunk is NOT optional');
-		console.error(pathData[1].matches);
 		assert(pathData[1].matches(Math.random().toString()),'the second data chunk should match literally anything');
 		assert(!pathData[1].isSplat,'the second chunk is not splat');
 
