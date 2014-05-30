@@ -46,7 +46,7 @@ suite('test the param matchers',function(){
 			matcher = paramMatchers.values(15)
 		}
 		catch(err){
-			assert.ok(true,'an error should be thrown!');
+			assert.ok(true,'an error should be thrown, values implies an ARRAY!');
 		}
 
 		matcher = paramMatchers.values(['dogs','cats','fish']);
@@ -56,4 +56,17 @@ suite('test the param matchers',function(){
 
 		done();
 	});
+
+	test('test the whatever matcher',function(done){
+		var matcher = paramMatchers.whatever();
+
+		var randomAssString = Math.random().toString();
+
+		assert.equal(true,matcher(randomAssString),'some random string should match');
+		assert.equal(false,matcher(''),'the empty string should not');
+
+		done();
+	});
+
+
 });
