@@ -1,6 +1,6 @@
 {
   "name": "pdl",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "helpers for compiling parameterized url paths into usable data for matchers and generators",
   "main": "index.js",
   "scripts": {
