@@ -33,7 +33,37 @@ To make a token a parameter preceed it with a ':' to make a token a splat, prece
 
 as an example in the path "/static/:type/:subtype?/*path" type is a parameter, subtype is an optional parameter, and path is a splat.
 
-#how do I restrict what kind of values will fit a param
+#what do pathData objects look like?
+the compilation of a path gets you a list of objects that can look a few different ways, if a token is a single value you will get:
+```
+{
+	"type":"value",
+	"val":[[the value from the path]],
+	"matches": a function that will return true with the input is equal to the value
+}
+```
+
+if the token is a parameter you will get:
+
+```
+{
+	"type":"param",
+	"name":the name of the parameter taken from the path string,
+	"matches": a function that either returns true for anything, or a more specific matcher (see below),
+	"isOptional": true if this is an optional param, false otherwise
+}
+```
+
+and if the token is a splat you will get:
+```
+{
+	"type":"splat",
+	"name":the name of the splat taken from the path string,
+	"isOptional": true if this is an optional slpat, false otherwise
+}
+```
+
+#how do I restrict what kind of values will match a param?
 by using a schema! A schema is a POJSO with the following fields
 
 1. path, a string written in the path description language
@@ -41,7 +71,7 @@ by using a schema! A schema is a POJSO with the following fields
 
 if no matcher is specified, any value will match the param
 
-#what kind of matchers are there
+#what kind of matchers are there?
 out of the box there are:
 
 1. regex: which takes a string that defines a regular expression matching values must match
